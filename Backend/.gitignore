@@ -1,0 +1,70 @@
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and debug
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+vendor/
+
+# Build output
+dist/
+build/
+out/
+tmp/
+
+# Environment variables
+venv/
+.env/
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+.pytest_cache/
+
+# Django / Flask specific
+db.sqlite3
+media/
+staticfiles/
+
+# PHP (XAMPP or Laravel)
+*.cache
+*.lock
+storage/
+bootstrap/cache/
+
+# JetBrains PhpStorm
+.idea/
+
+# VSCode
+.history/
+*.code-workspace
+
+# Byte-compiled / optimized files
+*.class
+
+# Backup files
+*~
+*.bak
+*.tmp
+*.old
