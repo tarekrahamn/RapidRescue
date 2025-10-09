@@ -3,13 +3,17 @@ from fastapi import HTTPException
 from models import DriverLocation
 from geoalchemy2.functions import ST_GeomFromText
 
-
 def get_driver_location(
     session: Session,
     driver_id: int
 ):
     """
     Retrieve the latitude and longitude of a driver's location from the database.
+    Parameters:
+        session (Session): Database session
+        driver_id (int): ID of the driver
+    Returns:
+        dict: A dictionary containing the driver's latitude and longitude
     """
     try:
         # Query the driver's location
@@ -38,6 +42,15 @@ def add_driver_location(
 ):
     """
     Add a new driver's location to the database after checking if the driver exists.
+    parameters:
+        session (Session): Database session
+        driver_id (int): ID of the driver
+        latitude (float): Latitude of the driver's location
+        longitude (float): Longitude of the driver's location
+    returns:
+        dict: A dictionary indicating success
+    raises:
+        HTTPException: If the driver location already exists
     """
     point = f'POINT({longitude} {latitude})'
     try:
@@ -76,6 +89,15 @@ def update_driver_location(
 ):
     """
     Update the latitude and longitude of a driver's location in the database.
+    parameters:
+        session (Session): Database session
+        driver_id (int): ID of the driver
+        latitude (float): New latitude of the driver's location
+        longitude (float): New longitude of the driver's location
+    returns:
+        dict: A dictionary indicating success
+    raises:
+        HTTPException: If the driver location does not exist
     """
     try:
         point = f'POINT({longitude} {latitude})'
@@ -107,6 +129,13 @@ def remove_driver_location(
 ):
     """
     Remove a driver's location from the database by ID.
+    parameters:
+        session (Session): Database session
+        driver_id (int): ID of the driver
+    returns:
+        dict: A dictionary indicating success
+    raises:
+        HTTPException: If the driver location does not exist
     """
     try:
         statement = (
