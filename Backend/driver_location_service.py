@@ -11,7 +11,10 @@ from fastapi import WebSocket
 
 
 class DriverLocationService:
-    """Service for managing driver locations and finding nearby drivers."""
+    """
+    Service for managing driver locations and finding nearby drivers.
+    
+    """
     
     def __init__(self):
         self.active_drivers: Dict[int, dict] = {}
