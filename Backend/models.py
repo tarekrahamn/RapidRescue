@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum, Float, Text
 from sqlalchemy.ext.declarative import declarative_base
-from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 from datetime import datetime
-from enum import Enum
-from uuid import UUID, uuid4
+from uuid import uuid4
 from decimal import Decimal
 from typing import Optional
 from sqlmodel import SQLModel, Field, Column, Integer, ForeignKey, Float
