@@ -1,18 +1,13 @@
-"""
-Schema definitions for user authentication and validation.
-"""
-
 from pydantic import BaseModel, Field
 from typing import Optional
 import re
 from pydantic import BaseModel, EmailStr, field_validator
 
-
-# Request Models
 class SignupRequest(BaseModel):
     """
     Schema for user signup.
     Ensures only valid Bangladeshi mobile numbers and Gmail addresses are allowed.
+    Validates password length and user type.
     """
     name: str
     mobile: str
@@ -63,10 +58,11 @@ class SignupRequest(BaseModel):
             raise ValueError("User type must be either 'rider' or 'driver'")
         return user_type
 
-
 class LoginRequest(BaseModel):
     """
     Schema for user login.
+    Allows either phone number or email for login.
+    Validates password length and user type.
     """
     phone_or_email: str
     password: str
@@ -81,7 +77,6 @@ class LoginRequest(BaseModel):
             raise ValueError("User type must be either 'rider' or 'driver'")
         return user_type
 
-
 # Response Models
 class SignupResponse(BaseModel):
     """
@@ -89,7 +84,6 @@ class SignupResponse(BaseModel):
     """
     success: bool
     message: str
-
 
 class LoginResponse(BaseModel):
     """
@@ -103,13 +97,11 @@ class LoginResponse(BaseModel):
     email: str
     token: str
 
-
 class ErrorResponse(BaseModel):
     """
     Response schema for errors.
     """
     detail: str
-
 
 class TokenData(BaseModel):
     """
@@ -121,60 +113,72 @@ class TokenData(BaseModel):
     role: str
     name: str
 
-
-"""Schemas for driver location and nearby drivers."""
-
-
 class DriverLocationCreate(BaseModel):
+    """
+    Schemas for driver location and nearby drivers.
+    Validates latitude and longitude ranges.
+    """
     driver_id: int
     lat: float = Field(..., ge=-90, le=90)
     lon: float = Field(..., ge=-180, le=180)
 
-
 class DriverLocationResponse(BaseModel):
+    """
+    Response schema for driver location.
+    """
     driver_id: int
     name: str
     mobile: str
 
 
 class NearbyDriversRequest(BaseModel):
+    """
+    Request schema for finding nearby drivers.
+    Validates latitude, longitude, and radius.
+    """
     lat: float = Field(..., ge=-90, le=90)
     lon: float = Field(..., ge=-180, le=180)
     radius: float = Field(..., gt=0)  # radius in kilometers
 
 
 class Coordinates(BaseModel):
+    """
+    Base model for geographical coordinates.
+    Validates latitude and longitude ranges.
+    """
     latitude: float = Field(..., ge=-90, le=90)
     longitude: float = Field(..., ge=-180, le=180)
 
 
 class BaseDriverLocationRequest(Coordinates):
+    """
+    Base model for driver location requests.
+    """
     driver_id: int
-
-
-# Request Models
-class UpdateDriverLocationRequest(BaseDriverLocationRequest):
-    pass
-
-
-class AddDriverLocationRequest(BaseDriverLocationRequest):
-    pass
-
-
-# Response Models
-class LocationGetResponse(Coordinates):
-    pass
-
 
 class LocationUpdateResponse(BaseModel):
     success: bool
 
-
 class LocationAddResponse(BaseModel):
+    """
+    Response schema for adding or updating driver location.
+    """
     success: bool
     message: Optional[str] = None
-
 
 class LocationRemoveResponse(BaseModel):
+    """
+    Response schema for removing driver location.
+    """
     success: bool
     message: Optional[str] = None
+
+
+class UpdateDriverLocationRequest(BaseDriverLocationRequest):
+    pass
+
+class AddDriverLocationRequest(BaseDriverLocationRequest):
+    pass
+
+class LocationGetResponse(Coordinates):
+    pass

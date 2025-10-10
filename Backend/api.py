@@ -1,12 +1,8 @@
-"""
-API routes for user authentication and signup.
-"""
 from fastapi import FastAPI, Response, APIRouter, Depends, HTTPException, Header, WebSocket, WebSocketDisconnect, Request
 from sqlalchemy.orm import Session
-from typing import Optional, Dict, List
+from typing import Dict
 import ambulancefinderservice
 from fastapi.middleware.cors import CORSMiddleware
-import location_service
 import json
 from datetime import datetime
 from db import get_session, engine
@@ -14,7 +10,6 @@ from db import get_session, engine
 from models import Driver, Rider, TripRequest, DriverResponse, OngoingTrip, Notification
 from sqlmodel import SQLModel
 from db import engine
-import models
 from authservice import create_user, authenticate_user, get_current_user, get_current_user_flexible
 from schema import (
     SignupRequest,
@@ -28,11 +23,15 @@ from schema import (
 from schema import TokenData
 from driver_location_service import driver_location_service
 
-# WebSocket Connection Manager
-
-
 class ConnectionManager:
+    """
+    Manages WebSocket connections for real-time communication.
+    Maintains mappings of connections, user info, and driver locations.
+    """
     def __init__(self):
+        """
+        active_connections: Dict[connection_id, WebSocket]
+        """
         self.active_connections: Dict[str, WebSocket] = {}
         # Maps user_id to connection_id
         self.user_connections: Dict[int, str] = {}

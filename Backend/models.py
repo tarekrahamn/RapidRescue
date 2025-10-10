@@ -15,8 +15,13 @@ Base = declarative_base()
 
 DRIVER_ID_FK = "driver.driver_id"
 
-
 class Driver(SQLModel, table=True):
+    """
+    Driver model for storing driver information.
+    Args:
+        SQLModel (_type_): _description_
+        table (bool, optional): _description_. Defaults to True.
+    """
     driver_id: Optional[int] = Field(
         default=None, primary_key=True, index=True)
     name: str
@@ -28,6 +33,13 @@ class Driver(SQLModel, table=True):
 
 
 class Rider(SQLModel, table=True):
+    """
+    Rider model for storing rider information.
+
+    Args:
+        SQLModel (_type_): _description_
+        table (bool, optional): _description_. Defaults to True.
+    """
     rider_id: Optional[int] = Field(default=None, primary_key=True, index=True)
     name: str
     mobile: str = Field(unique=True, nullable=False)
@@ -36,6 +48,12 @@ class Rider(SQLModel, table=True):
 
 
 class DriverLocation(SQLModel, table=True):
+    """
+    DriverLocation model for storing driver location information.
+    Args:
+        SQLModel (_type_): _description_
+        table (bool, optional): _description_. Defaults to True.
+    """
     driver_id: int = Field(
         sa_column=Column(
             Integer,
@@ -61,6 +79,9 @@ class DriverLocation(SQLModel, table=True):
 
 
 class Trip(SQLModel, table=True):
+    """
+    Trip model for storing trip information.
+    """
     trip_id: Optional[int] = Field(default=None, primary_key=True, index=True)
     rider_id: int = Field(
         sa_column=Column(
@@ -83,6 +104,9 @@ class Trip(SQLModel, table=True):
 
 
 class TripRequest(SQLModel, table=True):
+    """
+    TripRequest model for storing trip request information.
+    """
     req_id: Optional[int] = Field(default=None, primary_key=True, index=True)
     rider_id: int = Field(
         sa_column=Column(
@@ -101,6 +125,9 @@ class TripRequest(SQLModel, table=True):
 
 
 class DriverResponse(SQLModel, table=True):
+    """
+    DriverResponse model for storing driver responses to trip requests.
+    """
     response_id: Optional[int] = Field(
         default=None, primary_key=True, index=True)
     req_id: int = Field(
@@ -129,6 +156,9 @@ class DriverResponse(SQLModel, table=True):
 
 
 class OngoingTrip(SQLModel, table=True):
+    """
+    OngoingTrip model for storing ongoing trip information.
+    """
     trip_id: Optional[int] = Field(default=None, primary_key=True, index=True)
     req_id: int = Field(
         sa_column=Column(
@@ -164,7 +194,9 @@ class OngoingTrip(SQLModel, table=True):
 
 
 class EngagedDriver(SQLModel, table=True):
-
+    """
+    EngagedDriver model for storing engaged drivers for trip requests.
+    """
     __table_args__ = (
         PrimaryKeyConstraint("req_id", "driver_id"),
     )
@@ -186,6 +218,9 @@ class EngagedDriver(SQLModel, table=True):
 
 
 class Notification(SQLModel, table=True):
+    """
+    Notification model for storing notifications sent to riders and drivers.
+    """
     notification_id: Optional[int] = Field(
         default=None, primary_key=True, index=True)
     recipient_id: int = Field(
@@ -228,6 +263,9 @@ class Notification(SQLModel, table=True):
 
 
 class Dirde(SQLModel, table=True):
+    """
+    Dirde model for storing dirde (driver-rider) information.
+    """
     dirde_id: Optional[int] = Field(default=None, primary_key=True, index=True)
     rider_id: int = Field(
         sa_column=Column(
@@ -260,6 +298,9 @@ class Dirde(SQLModel, table=True):
 
 
 class Hospital(SQLModel, table=True):
+    """
+    Hospital model for storing hospital information.
+    """
     id: Optional[int] = Field(default=None, primary_key=True, index=True)
     rider_id: int = Field(sa_column=Column(
         Integer, index=True, nullable=False))
